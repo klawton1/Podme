@@ -7,7 +7,7 @@ function index(req, res){
   })
 };
 
-function add(req, res){
+function addToPodlist(req, res){
   var id = req.params.id;
   var info = req.body;
   db.Podlist.findOne({_id: id}, function(err, podlist){
@@ -37,7 +37,27 @@ function add(req, res){
   })
 }
 
+function removeFromPodlist(req, res){
+  var id = req.params.id;
+  var podcast_id = req.params.podcast_id
+  db.Podlist.findOne({_id:id}, function(err, podlist){
+    var podcasts = podlist.podcasts;
+    if(err){console.log(err);}
+    for(var i=0; i < podcasts.length; i++){
+      console.log("PODCAST",typeof(podcasts[i]), " ", "ID:", typeof(podcast_id));
+      if(String(podcasts[i]) === podcast_id){
+        podcasts.splice(i, 1);
+        console.log("DELETED ONE!", podlist.podcasts);
+        podlist.save(function (err, podlist){  
+          res.json(podlist);
+        })
+      }
+    }
+  })
+}
+
 module.exports = {
   index: index,
-  add: add
+  addToPodlist: addToPodlist,
+  removeFromPodlist: removeFromPodlist
 }

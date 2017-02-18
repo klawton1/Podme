@@ -38,16 +38,15 @@ app.get('/api/podlists/:id', controllers.podlist.find)
 
 app.get('/api/podlists/:id/podcasts', controllers.podlist.findPodcasts)
 
-
 app.post('/api/podlists', controllers.podlist.create)
 
-
-// NEED TO ADD CREATE IF PODCAST HAS NOT BEEN ADDED TO DB YET
-app.post('/api/podlists/:id/podcasts', controllers.podcast.add)
+app.post('/api/podlists/:id/podcasts', controllers.podcast.addToPodlist)
 
 app.put('/api/podlists/:id', controllers.podlist.edit)
 
 app.delete('/api/podlists/:id', controllers.podlist.remove)
+
+app.delete('/api/podlists/:id/podcasts/:podcast_id', controllers.podcast.removeFromPodlist)
 
 
 
